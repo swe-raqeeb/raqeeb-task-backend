@@ -1,0 +1,231 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Task API",
+    "version": "1.0.0",
+    "description": "API documentation for Task services"
+  },
+  "servers": [
+    {
+      "url": "https://raqeeb-task.abdulmonaim.top/api/v0.1"
+    }
+  ],
+  "paths": {
+    "/records": {
+      "get": {
+        "summary": "Get Records",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            },
+            "description": "The page number to retrieve",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 1
+            },
+            "description": "Number of records to return per page",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "schema": {
+              "type": "string",
+              "enum": ["created_at", "username", "leaked_sources"],
+              "default": "created_at"
+            },
+            "description": "Field to sort records by",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"],
+              "default": "asc"
+            },
+            "description": "Sort order (ascending or descending)",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string",
+              "enum": ["pending", "in progress", "done"]
+            },
+            "description": "Filter by status",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "username",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by username",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "leaked_sources",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Filter by number of leaked sources",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "Start date filter (ISO format)",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "End date filter (ISO format)",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "records": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "url": { "type": "string" },
+                          "username": { "type": "string" },
+                          "status": { "type": "string" },
+                          "created_at": { "type": "string", "format": "date-time" },
+                          "modified_at": { "type": "string", "format": "date-time" }
+                        }
+                      }
+                    },
+                    "total": { "type": "integer" },
+                    "pages": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "post": {
+        "summary": "Search Records",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "search": {
+                    "type": "string",
+                    "example": "isco"
+                  },
+                  "page": {
+                    "type": "integer",
+                    "default": 1,
+                    "minimum": 1
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "default": 10,
+                    "minimum": 1
+                  },
+                  "sortBy": {
+                    "type": "string",
+                    "enum": ["created_at", "username", "leaked_sources"],
+                    "default": "created_at"
+                  },
+                  "order": {
+                    "type": "string",
+                    "enum": ["asc", "desc"],
+                    "default": "asc"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": ["pending", "in progress", "done"]
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "leaked_sources": {
+                    "type": "integer"
+                  },
+                  "start": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "end": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "records": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "url": { "type": "string" },
+                          "username": { "type": "string" },
+                          "status": { "type": "string" },
+                          "created_at": { "type": "string", "format": "date-time" },
+                          "modified_at": { "type": "string", "format": "date-time" }
+                        }
+                      }
+                    },
+                    "total": { "type": "integer" },
+                    "pages": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

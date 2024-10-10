@@ -1,0 +1,36 @@
+services:
+  server:
+    build:
+      target: dev
+      args:
+        - NODE_ENV=dev
+    environment:
+      - NODE_ENV=dev #the app will spin up the target env variables
+    env_file:
+      - .env.dev
+    ports:
+      - 8087:8087
+    user: 'appuser:appgroup'
+    volumes:
+      - ./src:/usr/app/src/
+      - ./data:/usr/app/data/
+
+  mongo:
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_data:/data/db
+
+  mongo-express:
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_SERVER: mongo
+    ports:
+      - 8081:8081
+
+volumes:
+  mongo_data:

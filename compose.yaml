@@ -1,0 +1,14 @@
+services:
+  server:
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    restart: always
+
+  mongo-express:
+    image: mongo-express:latest
+    restart: always
+    depends_on:
+      - mongo
